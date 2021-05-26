@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using CoreApiEdu1.Configurations;
 using CoreApiEdu1.Entities;
+using CoreApiEdu1.IRepository;
+using CoreApiEdu1.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -42,12 +44,16 @@ namespace CoreApiEdu1
 
             services.AddAutoMapper(typeof(MapperInitializer));
 
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "CoreApiEdu1", Version = "v1" });
             });
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(op=> 
+                op.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+                );
 
         }
 
