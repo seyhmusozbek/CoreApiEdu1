@@ -9,6 +9,7 @@ using CoreApiEdu1.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -33,7 +34,7 @@ namespace CoreApiEdu1
         {
             services.AddDbContext<BarcodeContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection")));
-
+            
             services.AddCors(o =>
             {
                 o.AddPolicy("AllowAll", builder =>
@@ -41,6 +42,10 @@ namespace CoreApiEdu1
                         .AllowAnyMethod()
                         .AllowAnyHeader());
             });
+
+            services.AddAuthentication();
+
+            services.ConfigureIdentity();
 
             services.AddAutoMapper(typeof(MapperInitializer));
 

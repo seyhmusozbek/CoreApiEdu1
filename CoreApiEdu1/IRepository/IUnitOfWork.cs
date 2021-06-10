@@ -10,6 +10,12 @@ namespace CoreApiEdu1.IRepository
     {
         IGenericRepository<Cart> carts { get;}
         IGenericRepository<Product> products { get;}
+        IGenericRepository<Production> productions { get; }
+        IGenericRepository<Machine> machines { get; }
+        IGenericRepository<MStop> mStop { get; }
+
+
+
         Task Save();
     }
 }

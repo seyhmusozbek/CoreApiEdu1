@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210604181517_productions_shift")]
+    partial class productions_shift
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,56 +112,6 @@ namespace CoreApiEdu1.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("finish")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("machineid")
-                        .HasColumnType("int");
-
-                    b.Property<int>("minutes")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("start")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("machineid");
-
-                    b.ToTable("MStops");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.Machine", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("currentOrder")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("currentStatus")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("machineGroup")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("machineName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Machines");
-                });
-
             modelBuilder.Entity("CoreApiEdu1.Entities.Product", b =>
                 {
                     b.Property<int>("id")
@@ -196,13 +148,6 @@ namespace CoreApiEdu1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("exp1")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<bool>("isDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("isOkay")
                         .HasColumnType("bit");
@@ -367,15 +312,6 @@ namespace CoreApiEdu1.Migrations
                         .HasForeignKey("productIdid");
 
                     b.Navigation("productId");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
-                {
-                    b.HasOne("CoreApiEdu1.Entities.Machine", "machine")
-                        .WithMany()
-                        .HasForeignKey("machineid");
-
-                    b.Navigation("machine");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
