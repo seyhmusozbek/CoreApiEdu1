@@ -16,6 +16,12 @@ namespace CoreApiEdu1.Configurations
             CreateMap<Product, ProductDTO>().ReverseMap();
             CreateMap<Product, AddProductDTO>().ReverseMap();
             CreateMap<Production, AddProductionDTO>().ReverseMap();
+            CreateMap<MStop, AddStopDTO>().ReverseMap();
+            CreateMap<ChosenOrder, AddChosenOrderDTO>().ReverseMap();
+            CreateMap<AppUser, UserDTO>().ReverseMap();
+            CreateMap<Plan, AddPlanDTO>().ReverseMap();
+            CreateMap<StockReserve, AddStockReserveDTO>().ReverseMap();
+
 
         }
     }

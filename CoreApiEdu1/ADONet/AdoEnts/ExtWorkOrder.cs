@@ -21,5 +21,6 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public string Exp5 { get; set; }
         public double Planned { get; set; }
         public double Produced { get; set; }
+        public bool Chosen { get; set; }
     }
 }

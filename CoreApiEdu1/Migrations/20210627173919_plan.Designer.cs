@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210627173919_plan")]
+    partial class plan
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -165,10 +167,6 @@ namespace CoreApiEdu1.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("colorFilter")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
 
                     b.Property<string>("currentCaliber")
                         .HasColumnType("nvarchar(max)");
@@ -336,50 +334,50 @@ namespace CoreApiEdu1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1f97a37a-deef-42ec-85c3-22214ea22fe2",
-                            ConcurrencyStamp = "ef3b0733-51b4-4f5c-b63a-fb01e2181a92",
+                            Id = "062067f0-700d-4e44-bdb8-3a80b0eb5934",
+                            ConcurrencyStamp = "a7078136-163f-4366-91f5-e84c2def72b0",
                             Name = "ExtUser",
                             NormalizedName = "ExtUser"
                         },
                         new
                         {
-                            Id = "39746d72-1b43-46b4-b3be-a78e17b2b5f0",
-                            ConcurrencyStamp = "f811d580-44dc-4ce7-bc92-97f8d3bff7b1",
+                            Id = "1a26a5b2-1e1a-409c-9da9-ec87fd6d7bc0",
+                            ConcurrencyStamp = "638f6bfc-003e-4605-b200-21f355f81bef",
                             Name = "LamUser",
                             NormalizedName = "LAMUSER"
                         },
                         new
                         {
-                            Id = "dad3cac9-3cb6-4378-bc61-c03a98570632",
-                            ConcurrencyStamp = "244aed09-a500-45cd-b861-49923523607a",
+                            Id = "67e970dc-884b-452f-ad1f-a37260f4f8d1",
+                            ConcurrencyStamp = "12dc7510-9818-41b1-9d44-24cbebf8a14d",
                             Name = "FensUser",
                             NormalizedName = "FENSUSER"
                         },
                         new
                         {
-                            Id = "1015ed08-4e3b-4780-9d5e-670b04c07129",
-                            ConcurrencyStamp = "23a8dccc-078d-4d97-80f3-394f186a6ab8",
+                            Id = "db245fa0-3b70-4760-9c23-02d11fc537ba",
+                            ConcurrencyStamp = "28a84367-ca86-4f13-853b-daa96c7ff4c0",
                             Name = "Stocker",
                             NormalizedName = "STOCKER"
                         },
                         new
                         {
-                            Id = "9f3304d2-fe34-4608-a863-022d81e0caf1",
-                            ConcurrencyStamp = "eee70318-1843-4e36-ba3c-0f2231f89bff",
+                            Id = "333a9e23-b703-4e9d-9876-8817182218c2",
+                            ConcurrencyStamp = "4a507ee2-8f3d-4e38-8239-750dae977db6",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "c8869e0a-a88c-4d82-94c3-cec3557b2fb3",
-                            ConcurrencyStamp = "6b2ecef2-9716-4d21-9615-3b2c874cd639",
+                            Id = "ab030f7e-0dff-4931-8594-694a70568286",
+                            ConcurrencyStamp = "5b2b664b-3051-46c1-8742-454dbe67f6a8",
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
                         },
                         new
                         {
-                            Id = "fa345f43-0ac4-48f2-b3cd-67268b10d0b3",
-                            ConcurrencyStamp = "97cb5046-008a-4c63-8f27-b588434bd3a7",
+                            Id = "5a98448a-7d44-4882-bf73-710e231cec7b",
+                            ConcurrencyStamp = "078469d4-07ae-4944-890b-13ea7a811249",
                             Name = "Planner",
                             NormalizedName = "PLANNER"
                         });

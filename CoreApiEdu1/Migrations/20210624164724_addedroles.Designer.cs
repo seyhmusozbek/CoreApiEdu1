@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210624164724_addedroles")]
+    partial class addedroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -166,10 +168,6 @@ namespace CoreApiEdu1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("colorFilter")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
                     b.Property<string>("currentCaliber")
                         .HasColumnType("nvarchar(max)");
 
@@ -192,50 +190,6 @@ namespace CoreApiEdu1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Machines");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.Plan", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("caliber")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("customerName")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime>("finishTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("hour")
-                        .HasColumnType("float");
-
-                    b.Property<string>("machine")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("orderNum")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<double>("quantity1")
-                        .HasColumnType("float");
-
-                    b.Property<double>("readyQuantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Plans");
                 });
 
             modelBuilder.Entity("CoreApiEdu1.Entities.Product", b =>
@@ -336,50 +290,50 @@ namespace CoreApiEdu1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "1f97a37a-deef-42ec-85c3-22214ea22fe2",
-                            ConcurrencyStamp = "ef3b0733-51b4-4f5c-b63a-fb01e2181a92",
+                            Id = "b7c050d2-3c42-4037-a43e-d9a524b87e03",
+                            ConcurrencyStamp = "4ea8b216-58e5-43a2-a3e3-fc8cd961656e",
                             Name = "ExtUser",
                             NormalizedName = "ExtUser"
                         },
                         new
                         {
-                            Id = "39746d72-1b43-46b4-b3be-a78e17b2b5f0",
-                            ConcurrencyStamp = "f811d580-44dc-4ce7-bc92-97f8d3bff7b1",
+                            Id = "5648d6a0-f660-49e3-a74a-b9b23b67995c",
+                            ConcurrencyStamp = "73429dbe-1b49-4c49-9955-ed5ca0764037",
                             Name = "LamUser",
                             NormalizedName = "LAMUSER"
                         },
                         new
                         {
-                            Id = "dad3cac9-3cb6-4378-bc61-c03a98570632",
-                            ConcurrencyStamp = "244aed09-a500-45cd-b861-49923523607a",
+                            Id = "483afdf8-8a46-4172-9cac-23a11db07353",
+                            ConcurrencyStamp = "1176125f-9631-4f2e-8e5b-7275804009dd",
                             Name = "FensUser",
                             NormalizedName = "FENSUSER"
                         },
                         new
                         {
-                            Id = "1015ed08-4e3b-4780-9d5e-670b04c07129",
-                            ConcurrencyStamp = "23a8dccc-078d-4d97-80f3-394f186a6ab8",
+                            Id = "a7baef34-d7c4-4bd7-b45a-0bc1da6a8734",
+                            ConcurrencyStamp = "e42a4f5e-d1cf-416b-b828-a5b3613bdff2",
                             Name = "Stocker",
                             NormalizedName = "STOCKER"
                         },
                         new
                         {
-                            Id = "9f3304d2-fe34-4608-a863-022d81e0caf1",
-                            ConcurrencyStamp = "eee70318-1843-4e36-ba3c-0f2231f89bff",
+                            Id = "ac42ae64-7fd0-40c4-b3d4-09b133954ab3",
+                            ConcurrencyStamp = "5362838d-8968-4197-8b51-22581b6cec05",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "c8869e0a-a88c-4d82-94c3-cec3557b2fb3",
-                            ConcurrencyStamp = "6b2ecef2-9716-4d21-9615-3b2c874cd639",
+                            Id = "8e038f44-cc2f-4954-900b-53a7e9f160fb",
+                            ConcurrencyStamp = "c7305abb-2d58-4190-9468-f9d8a6502252",
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
                         },
                         new
                         {
-                            Id = "fa345f43-0ac4-48f2-b3cd-67268b10d0b3",
-                            ConcurrencyStamp = "97cb5046-008a-4c63-8f27-b588434bd3a7",
+                            Id = "e1af3893-96bd-49e9-89b9-39852b02b0ea",
+                            ConcurrencyStamp = "92b026a5-6a3e-4080-9e39-3c1de5f1c19c",
                             Name = "Planner",
                             NormalizedName = "PLANNER"
                         });

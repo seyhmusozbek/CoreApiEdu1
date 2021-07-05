@@ -1,21 +1,16 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using CoreApiEdu1.Configurations;
 using CoreApiEdu1.Entities;
 using CoreApiEdu1.IRepository;
 using CoreApiEdu1.Repository;
+using CoreApiEdu1.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
 namespace CoreApiEdu1
@@ -46,10 +41,12 @@ namespace CoreApiEdu1
             services.AddAuthentication();
 
             services.ConfigureIdentity();
+            services.ConfigureJWT(Configuration);
 
             services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IAuthManager, AuthManager>();
 
             services.AddSwaggerGen(c =>
             {

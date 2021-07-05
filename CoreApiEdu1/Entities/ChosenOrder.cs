@@ -6,13 +6,12 @@ using System.Threading.Tasks;
 
 namespace CoreApiEdu1.Entities
 {
-    public class MStop
+    public class ChosenOrder
     {
         public int id { get; set; }
-        public Machine machine { get; set; }
-        public DateTime date { get; set; }
-        public bool isStop { get; set; }
         [MaxLength(100)]
-        public string exp1 { get; set; }
+        public string orderNum { get; set; }
+        public DateTime finishTime { get; set; }
+        public int priority { get; set; }
     }
 }

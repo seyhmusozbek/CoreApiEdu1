@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 
 namespace CoreApiEdu1.Entities
 {
-    public class MStop
+    public class StockReserve
     {
         public int id { get; set; }
-        public Machine machine { get; set; }
-        public DateTime date { get; set; }
-        public bool isStop { get; set; }
         [MaxLength(100)]
-        public string exp1 { get; set; }
+        public string code { get; set; }
+        [MaxLength(100)]
+        public string orderNum { get; set; }
+        public double quantity1 { get; set; }
+        
     }
 }

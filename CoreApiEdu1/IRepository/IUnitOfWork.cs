@@ -13,7 +13,7 @@ namespace CoreApiEdu1.IRepository
         IGenericRepository<Production> productions { get; }
         IGenericRepository<Machine> machines { get; }
         IGenericRepository<MStop> mStop { get; }
-
+        IGenericRepository<ChosenOrder> chosenOrder { get; }
 
 
         Task Save();

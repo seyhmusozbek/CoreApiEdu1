@@ -17,6 +17,12 @@ namespace CoreApiEdu1.Repository
         private IGenericRepository<Production> _productions;
         private IGenericRepository<Machine> _machine;
         private IGenericRepository<MStop> _mStop;
+        private IGenericRepository<ChosenOrder> _chosenOrder;
+        private IGenericRepository<Plan> _plan;
+        private IGenericRepository<StockReserve> _stockReserve;
+
+
+
 
 
 
@@ -31,6 +37,11 @@ namespace CoreApiEdu1.Repository
         public IGenericRepository<Production> productions => _productions ??= new GenericRepository<Production>(_context);
         public IGenericRepository<Machine> machines => _machine ??= new GenericRepository<Machine>(_context);
         public IGenericRepository<MStop> mStop => _mStop ??= new GenericRepository<MStop>(_context);
+        public IGenericRepository<ChosenOrder> chosenOrder => _chosenOrder ??= new GenericRepository<ChosenOrder>(_context);
+        public IGenericRepository<Plan> plan => _plan ??= new GenericRepository<Plan>(_context);
+        public IGenericRepository<StockReserve> stockReserve => _stockReserve ??= new GenericRepository<StockReserve>(_context);
+
+
 
 
 

@@ -16,7 +16,7 @@ namespace CoreApiEdu1
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().WriteTo.File(
-                path: @"D:\development\api_logs\log-.txt",
+                path: @"C:\Program Files\BarcodeApi\logs\log-.txt",
                 outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Information
@@ -26,7 +26,6 @@ namespace CoreApiEdu1
             {
                 Log.Information("App is starting!");
                 CreateHostBuilder(args).Build().Run();
-
             }
             catch (Exception ex)
             {

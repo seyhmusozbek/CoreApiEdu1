@@ -9,6 +9,8 @@ using CoreApiEdu1.IRepository;
 using CoreApiEdu1.Models;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using CoreApiEdu1.ADONet.AdoEnts;
+using System.Collections.Generic;
 
 namespace CoreApiEdu1.Controllers
 {
@@ -51,6 +53,7 @@ namespace CoreApiEdu1.Controllers
         {
             try
             {
+
                 var production = await _unitOfWork.productions.Get(a => a.id == id);
                 return Ok(production);
             }
@@ -65,12 +68,105 @@ namespace CoreApiEdu1.Controllers
         {
             try
             {
+
                 var production = await _unitOfWork.productions.GetAll(a => a.orderId == orderId);
                 return Ok(production);
             }
             catch (Exception ex)
             {
                 _iLogger.LogError(ex, $"something went wrong in the {nameof(GetProductions)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet("{barcodeId:int}", Name = "GetBarcodeInfo")]
+        public async Task<IActionResult> GetBarcodeInfo(int barcodeId)
+        {
+            try
+            {
+                var barcodeInfo = await _extruderOps.GetBarcodeInfo(barcodeId);
+                return Ok(barcodeInfo);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetBarcodeInfo)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet(Name = "GetStockInfos")]
+        public async Task<IActionResult> GetStockInfos()
+        {
+            try
+            {
+                _iLogger.LogInformation("Getstockinfos called");
+                var stockInfos = await _extruderOps.GetStockInfos();
+                return Ok(stockInfos);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetStockInfos)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet("{orderNum}",Name = "GetOrderStockInfos")]
+        public async Task<IActionResult> GetOrderStockInfos(string orderNum)
+        {
+            try
+            {
+                _iLogger.LogInformation("GetOrderStockInfos called");
+                var stockInfos = await _extruderOps.GetOrderStockInfos(orderNum);
+                return Ok(stockInfos);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetOrderStockInfos)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet(Name = "GetCalibers")]
+        public async Task<IActionResult> GetCalibers()
+        {
+            try
+            {
+                var calibers = await _extruderOps.GetCalibers();
+                return Ok(calibers);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetCalibers)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet(Name = "GetCustOrders")]
+        public async Task<IActionResult> GetCustOrders()
+        {
+            try
+            {
+                var custOrders = await _extruderOps.GetCustOrders();
+                return Ok(custOrders);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetCustOrders)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpGet("{orderNum}",Name = "GetCustOrderDetails")]
+        public async Task<IActionResult> GetCustOrderDetails(string orderNum)
+        {
+            try
+            {
+                var custOrders = await _extruderOps.GetCOrderDetails(orderNum);
+                return Ok(custOrders);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetCustOrders)}");
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
@@ -98,6 +194,68 @@ namespace CoreApiEdu1.Controllers
             {
                 _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddProduction)}");
                 return BadRequest(new {success=false, product = addProductionDTO});
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddChosenOrders([FromBody] List<AddChosenOrderDTO> orderList)
+        {
+            if (!ModelState.IsValid)
+            {
+                _iLogger.LogError($"Invalid post attempt in {nameof(AddChosenOrders)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                List<ChosenOrder> chosenOrders = new List<ChosenOrder>();
+                foreach (var item in orderList)
+                {
+                    var order = _mapper.Map<ChosenOrder>(item);
+                    chosenOrders.Add(order);
+                }
+                var allList = await _unitOfWork.chosenOrder.GetAll();
+                _unitOfWork.chosenOrder.DeleteRange(allList);
+                await _unitOfWork.chosenOrder.InsertRange(chosenOrders);
+                await _unitOfWork.Save();
+                return Ok(new { orderList = orderList, success = true });
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddProduction)}");
+                return BadRequest(new { success = false, product = orderList });
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ChooseOrder([FromBody] Chosen chosen)
+        {
+            if (!ModelState.IsValid)
+            {
+                _iLogger.LogError($"Invalid post attempt in {nameof(ChooseOrder)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var machine = await _unitOfWork.machines.Get(a => a.machineName == chosen.machine);
+                if (machine!=null)
+                {
+                    machine.currentOrder = chosen.orderId;
+                    _unitOfWork.machines.Update(machine);
+                    await _unitOfWork.Save();
+                }
+                await _extruderOps.ChooseOrder(chosen);
+                return Ok(new { chosen = chosen, success = true });
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(ChooseOrder)}");
+                return BadRequest(new { success = false, chosen = chosen });
             }
         }
 

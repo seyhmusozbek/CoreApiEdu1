@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210611090821_mstop_change")]
+    partial class mstop_change
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -110,28 +112,6 @@ namespace CoreApiEdu1.Migrations
                     b.ToTable("CartItems");
                 });
 
-            modelBuilder.Entity("CoreApiEdu1.Entities.ChosenOrder", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("finishTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("orderNum")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("priority")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("ChosenOrders");
-                });
-
             modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
                 {
                     b.Property<int>("id")
@@ -166,13 +146,6 @@ namespace CoreApiEdu1.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("colorFilter")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("currentCaliber")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("currentOrder")
                         .HasColumnType("int");
 
@@ -192,50 +165,6 @@ namespace CoreApiEdu1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("Machines");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.Plan", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("caliber")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("code")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("customerName")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<DateTime>("finishTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<double>("hour")
-                        .HasColumnType("float");
-
-                    b.Property<string>("machine")
-                        .HasMaxLength(10)
-                        .HasColumnType("nvarchar(10)");
-
-                    b.Property<string>("orderNum")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<double>("quantity1")
-                        .HasColumnType("float");
-
-                    b.Property<double>("readyQuantity")
-                        .HasColumnType("float");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Plans");
                 });
 
             modelBuilder.Entity("CoreApiEdu1.Entities.Product", b =>
@@ -332,57 +261,6 @@ namespace CoreApiEdu1.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "1f97a37a-deef-42ec-85c3-22214ea22fe2",
-                            ConcurrencyStamp = "ef3b0733-51b4-4f5c-b63a-fb01e2181a92",
-                            Name = "ExtUser",
-                            NormalizedName = "ExtUser"
-                        },
-                        new
-                        {
-                            Id = "39746d72-1b43-46b4-b3be-a78e17b2b5f0",
-                            ConcurrencyStamp = "f811d580-44dc-4ce7-bc92-97f8d3bff7b1",
-                            Name = "LamUser",
-                            NormalizedName = "LAMUSER"
-                        },
-                        new
-                        {
-                            Id = "dad3cac9-3cb6-4378-bc61-c03a98570632",
-                            ConcurrencyStamp = "244aed09-a500-45cd-b861-49923523607a",
-                            Name = "FensUser",
-                            NormalizedName = "FENSUSER"
-                        },
-                        new
-                        {
-                            Id = "1015ed08-4e3b-4780-9d5e-670b04c07129",
-                            ConcurrencyStamp = "23a8dccc-078d-4d97-80f3-394f186a6ab8",
-                            Name = "Stocker",
-                            NormalizedName = "STOCKER"
-                        },
-                        new
-                        {
-                            Id = "9f3304d2-fe34-4608-a863-022d81e0caf1",
-                            ConcurrencyStamp = "eee70318-1843-4e36-ba3c-0f2231f89bff",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "c8869e0a-a88c-4d82-94c3-cec3557b2fb3",
-                            ConcurrencyStamp = "6b2ecef2-9716-4d21-9615-3b2c874cd639",
-                            Name = "Observer",
-                            NormalizedName = "OBSERVER"
-                        },
-                        new
-                        {
-                            Id = "fa345f43-0ac4-48f2-b3cd-67268b10d0b3",
-                            ConcurrencyStamp = "97cb5046-008a-4c63-8f27-b588434bd3a7",
-                            Name = "Planner",
-                            NormalizedName = "PLANNER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
