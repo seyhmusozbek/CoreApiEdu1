@@ -10,7 +10,7 @@ namespace CoreApiEdu1.Models
     {
         public string UserName { get; set; }
         [Required]
-        [StringLength(6, ErrorMessage = "Şifreniz minimum 8 karakter olmalı")]
+        [StringLength(8, ErrorMessage = "Şifreniz maximum 8 karakter olmalı")]
         public string Password { get; set; }
     }
     public class UserDTO

@@ -21,8 +21,7 @@ namespace CoreApiEdu1.Configurations
             CreateMap<AppUser, UserDTO>().ReverseMap();
             CreateMap<Plan, AddPlanDTO>().ReverseMap();
             CreateMap<StockReserve, AddStockReserveDTO>().ReverseMap();
-
-
+            CreateMap<WHTransfer, AddWHTransferDTO>().ReverseMap();
         }
     }
 }

@@ -8,6 +8,7 @@ using AutoMapper;
 using CoreApiEdu1.Entities;
 using CoreApiEdu1.Models;
 using CoreApiEdu1.Services;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace CoreApiEdu1.Controllers
 {
@@ -42,7 +43,7 @@ namespace CoreApiEdu1.Controllers
             try
             {
                 var user = _mapper.Map<AppUser>(userDTO);
-                var result = await _userManager.CreateAsync(user,userDTO.Password);
+                var result = await _userManager.CreateAsync(user, userDTO.Password);
 
                 if (!result.Succeeded)
                 {
@@ -75,17 +76,15 @@ namespace CoreApiEdu1.Controllers
             }
             try
             {
-                if(!await _authManager.ValidateUser(userDTO))
+                if (!await _authManager.ValidateUser(userDTO))
                 {
                     return Unauthorized(userDTO);
                 }
-              
-
-                return Accepted(new { Token=await _authManager.CreateToken() });
+                return Accepted(new { Token = await _authManager.CreateToken() });
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, $"Invalig login attempt in {nameof(Login)}");
+                _logger.LogError(ex, $"Invalid login attempt in {nameof(Login)}");
                 return BadRequest(new { success = false, product = userDTO });
             }
         }

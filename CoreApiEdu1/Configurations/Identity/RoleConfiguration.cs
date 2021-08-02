@@ -47,6 +47,11 @@ namespace CoreApiEdu1.Configurations.Identity
                 {
                     Name = "Planner",
                     NormalizedName = "PLANNER"
+                },
+                new IdentityRole
+                {
+                    Name = "User",
+                    NormalizedName = "USER"
                 }
                 );
         }

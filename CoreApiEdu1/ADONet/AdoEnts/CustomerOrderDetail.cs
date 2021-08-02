@@ -15,6 +15,7 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public string unit2 { get; set; }
         public string unit3 { get; set; }
         public double quantity1 { get; set; }
+        public double readyQuantity { get; set; }
         public double quantity2 { get; set; }
         public double quantity3 { get; set; }
         public string dColor { get; set; }

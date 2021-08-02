@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210723141719_roles_again")]
+    partial class roles_again
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -425,59 +427,52 @@ namespace CoreApiEdu1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b49782cf-012e-41da-a0e4-0abd83486d76",
-                            ConcurrencyStamp = "96038315-3e5e-4efd-96c1-b45f839f2b07",
+                            Id = "0dd87781-5ffe-4093-b53d-e454190f3d9c",
+                            ConcurrencyStamp = "639306e0-5119-4011-9f06-310b485c12b3",
                             Name = "ExtUser",
                             NormalizedName = "ExtUser"
                         },
                         new
                         {
-                            Id = "745821f7-fed3-48f7-9acb-4ecc541005e2",
-                            ConcurrencyStamp = "40552884-9dcb-47e4-bb4b-d48bc7d8991b",
+                            Id = "bcf64e62-e7bf-4d7b-8ae3-61a30b4d6aa4",
+                            ConcurrencyStamp = "b9b04b38-11f9-4abd-be2a-3379b0ae2597",
                             Name = "LamUser",
                             NormalizedName = "LAMUSER"
                         },
                         new
                         {
-                            Id = "7a99f5ed-e864-4abe-9ce6-d0c294df4c86",
-                            ConcurrencyStamp = "030e02f2-62da-4cf8-aad0-ad6cd242d722",
+                            Id = "78630904-032c-4858-b1d9-21e8607ecfda",
+                            ConcurrencyStamp = "b7161fff-8159-4530-9a15-cbe9d46ad1ca",
                             Name = "FensUser",
                             NormalizedName = "FENSUSER"
                         },
                         new
                         {
-                            Id = "06c0ba0f-d983-4570-b7ee-1152c15a9c8b",
-                            ConcurrencyStamp = "00a79955-591e-4b02-ab24-913b22748e59",
+                            Id = "9a9ffb80-2a51-421d-92ee-4b074fa3565f",
+                            ConcurrencyStamp = "06da780e-cd2a-4a9e-80d5-c318691044b0",
                             Name = "Stocker",
                             NormalizedName = "STOCKER"
                         },
                         new
                         {
-                            Id = "859bfbc4-5d76-4b7d-b773-a373d3e93171",
-                            ConcurrencyStamp = "09909777-a080-4001-b546-8fb715945eea",
+                            Id = "480b121b-66a5-4d0f-8f0a-3d98ebcd6ee6",
+                            ConcurrencyStamp = "22111eb5-9b93-44ea-8667-496f5ffee68f",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "2583063e-2c66-433c-8632-1d404026321e",
-                            ConcurrencyStamp = "2cde0515-f565-44df-853f-2d2888ee9658",
+                            Id = "9a53e720-4a1a-46da-8aad-01b5b53c18e6",
+                            ConcurrencyStamp = "6b742249-df59-4f99-9744-38fd7d006f26",
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
                         },
                         new
                         {
-                            Id = "8e64a5ea-d78b-4497-a942-2975402ba579",
-                            ConcurrencyStamp = "d3376caa-1b23-4c9b-a07c-34965e4ddc75",
+                            Id = "89010881-fcc4-45d5-bff5-bda5f64107a6",
+                            ConcurrencyStamp = "f3317f6e-a509-4216-b0bb-41687f48536f",
                             Name = "Planner",
                             NormalizedName = "PLANNER"
-                        },
-                        new
-                        {
-                            Id = "31202c72-1c78-4eea-8d96-572838b96fc0",
-                            ConcurrencyStamp = "1b3437c9-3a01-40e7-81f8-8f4f922ac06c",
-                            Name = "User",
-                            NormalizedName = "USER"
                         });
                 });
 

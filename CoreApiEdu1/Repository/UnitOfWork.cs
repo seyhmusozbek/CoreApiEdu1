@@ -20,6 +20,10 @@ namespace CoreApiEdu1.Repository
         private IGenericRepository<ChosenOrder> _chosenOrder;
         private IGenericRepository<Plan> _plan;
         private IGenericRepository<StockReserve> _stockReserve;
+        private IGenericRepository<WHTransfer> _wHTransfer;
+        private IGenericRepository<Counter> _counters;
+
+
 
 
 
@@ -40,10 +44,8 @@ namespace CoreApiEdu1.Repository
         public IGenericRepository<ChosenOrder> chosenOrder => _chosenOrder ??= new GenericRepository<ChosenOrder>(_context);
         public IGenericRepository<Plan> plan => _plan ??= new GenericRepository<Plan>(_context);
         public IGenericRepository<StockReserve> stockReserve => _stockReserve ??= new GenericRepository<StockReserve>(_context);
-
-
-
-
+        public IGenericRepository<WHTransfer> wHTransfer => _wHTransfer ??= new GenericRepository<WHTransfer>(_context);
+        public IGenericRepository<Counter> counters => _counters ??= new GenericRepository<Counter>(_context);
 
 
         public void Dispose()

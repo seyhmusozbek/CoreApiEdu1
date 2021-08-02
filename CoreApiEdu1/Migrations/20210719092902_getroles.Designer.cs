@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210719092902_getroles")]
+    partial class getroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,27 +132,6 @@ namespace CoreApiEdu1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("ChosenOrders");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.Counter", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("lastDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("lastValue")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Counters");
                 });
 
             modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
@@ -425,59 +406,52 @@ namespace CoreApiEdu1.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "b49782cf-012e-41da-a0e4-0abd83486d76",
-                            ConcurrencyStamp = "96038315-3e5e-4efd-96c1-b45f839f2b07",
+                            Id = "2bb89fb4-4f4e-4d16-a62b-b2864cb9b604",
+                            ConcurrencyStamp = "48927e15-3f14-40a3-a1b4-be23f41abedc",
                             Name = "ExtUser",
                             NormalizedName = "ExtUser"
                         },
                         new
                         {
-                            Id = "745821f7-fed3-48f7-9acb-4ecc541005e2",
-                            ConcurrencyStamp = "40552884-9dcb-47e4-bb4b-d48bc7d8991b",
+                            Id = "5c169c62-7d45-428a-9823-2f881948c34a",
+                            ConcurrencyStamp = "a73931e0-d5c1-48ba-89bb-bd78616678ce",
                             Name = "LamUser",
                             NormalizedName = "LAMUSER"
                         },
                         new
                         {
-                            Id = "7a99f5ed-e864-4abe-9ce6-d0c294df4c86",
-                            ConcurrencyStamp = "030e02f2-62da-4cf8-aad0-ad6cd242d722",
+                            Id = "935b3485-c6b1-433a-bc8f-479569ca2d28",
+                            ConcurrencyStamp = "f1285a18-5536-4cba-8ec9-ceb9c5125cf8",
                             Name = "FensUser",
                             NormalizedName = "FENSUSER"
                         },
                         new
                         {
-                            Id = "06c0ba0f-d983-4570-b7ee-1152c15a9c8b",
-                            ConcurrencyStamp = "00a79955-591e-4b02-ab24-913b22748e59",
+                            Id = "842683c9-3ba9-4d40-8ce6-fc8217a302c9",
+                            ConcurrencyStamp = "ef8ee488-cd39-41f0-bec3-4b8d1bc7174a",
                             Name = "Stocker",
                             NormalizedName = "STOCKER"
                         },
                         new
                         {
-                            Id = "859bfbc4-5d76-4b7d-b773-a373d3e93171",
-                            ConcurrencyStamp = "09909777-a080-4001-b546-8fb715945eea",
+                            Id = "2af24115-2d49-4236-a134-720da22849ec",
+                            ConcurrencyStamp = "40a2c83a-9dd6-42c5-8117-d1c6f1125781",
                             Name = "Administrator",
                             NormalizedName = "ADMINISTRATOR"
                         },
                         new
                         {
-                            Id = "2583063e-2c66-433c-8632-1d404026321e",
-                            ConcurrencyStamp = "2cde0515-f565-44df-853f-2d2888ee9658",
+                            Id = "f4041ba2-0343-430c-9e6d-a2382ab37d83",
+                            ConcurrencyStamp = "3c16cb80-7597-48b6-a63f-526679369769",
                             Name = "Observer",
                             NormalizedName = "OBSERVER"
                         },
                         new
                         {
-                            Id = "8e64a5ea-d78b-4497-a942-2975402ba579",
-                            ConcurrencyStamp = "d3376caa-1b23-4c9b-a07c-34965e4ddc75",
+                            Id = "f61f2a05-da55-48fa-8b8a-00f3c615b178",
+                            ConcurrencyStamp = "1f10c9db-8fd0-41cd-92d3-748fee7a6990",
                             Name = "Planner",
                             NormalizedName = "PLANNER"
-                        },
-                        new
-                        {
-                            Id = "31202c72-1c78-4eea-8d96-572838b96fc0",
-                            ConcurrencyStamp = "1b3437c9-3a01-40e7-81f8-8f4f922ac06c",
-                            Name = "User",
-                            NormalizedName = "USER"
                         });
                 });
 

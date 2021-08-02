@@ -14,7 +14,9 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public double bakiye1 { get; set; }
         public string olcuBr1 { get; set; }
         public double bakiye2 { get; set; }
+        public double kullanilan1 { get; set; }
         public double pay2 { get; set; }
+        public double payda1 { get; set; }
         public string olcuBr2 { get; set; }
     }
 }

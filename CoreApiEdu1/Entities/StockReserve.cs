@@ -14,6 +14,8 @@ namespace CoreApiEdu1.Entities
         [MaxLength(100)]
         public string orderNum { get; set; }
         public double quantity1 { get; set; }
-        
+        [MaxLength(100)]
+        public string usedCode { get; set; }
+
     }
 }

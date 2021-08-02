@@ -171,6 +171,22 @@ namespace CoreApiEdu1.Controllers
             }
         }
 
+
+        [HttpGet(Name = "GetStockReserves")]
+        public async Task<IActionResult> GetStockReserves()
+        {
+            try
+            {
+                var stockReserves = await _extruderOps.GetStockReserves();
+                return Ok(stockReserves);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetCustOrders)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status201Created)]
@@ -194,6 +210,34 @@ namespace CoreApiEdu1.Controllers
             {
                 _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddProduction)}");
                 return BadRequest(new {success=false, product = addProductionDTO});
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddStockReserve([FromBody] AddStockReserveDTO addStockReserveDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _iLogger.LogError($"Invalid post attempt in {nameof(AddStockReserve)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var stockReserve = _mapper.Map<StockReserve>(addStockReserveDTO);
+                var oldReserves = await _unitOfWork.stockReserve.GetAll(a => a.code == stockReserve.code && a.orderNum == stockReserve.orderNum && a.usedCode==stockReserve.usedCode);
+                _unitOfWork.stockReserve.DeleteRange(oldReserves);
+                if(stockReserve.quantity1>0)
+                await _unitOfWork.stockReserve.Insert(stockReserve);
+                await _unitOfWork.Save();
+                return Ok(new { sReserve = stockReserve, success = true });
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddProduction)}");
+                return BadRequest(new { success = false, sReserve = addStockReserveDTO });
             }
         }
 
@@ -287,6 +331,34 @@ namespace CoreApiEdu1.Controllers
             catch (Exception ex)
             {
                 _iLogger.LogError(ex, $"Invalid delete attempt in {nameof(DeleteProduction)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
+        [HttpDelete]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> DeleteReserves()
+        {
+         
+            try
+            {
+                var reserves = await _unitOfWork.stockReserve.GetAll();
+                if (reserves == null || reserves.Count==0)
+                {
+                    _iLogger.LogError($"Invalid delete attempt in {nameof(DeleteReserves)}");
+                    return BadRequest("There is nothing to delete.");
+                }
+                
+                _unitOfWork.stockReserve.DeleteRange(reserves);
+                await _unitOfWork.Save();
+
+                return Ok(new { success = true });
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid delete attempt in {nameof(DeleteReserves)}");
                 return StatusCode(500, "Internal server error. Please try again later.");
             }
         }

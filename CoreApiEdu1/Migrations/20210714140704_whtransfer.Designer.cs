@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210714140704_whtransfer")]
+    partial class whtransfer
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,27 +132,6 @@ namespace CoreApiEdu1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("ChosenOrders");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.Counter", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("lastDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("lastValue")
-                        .HasColumnType("int");
-
-                    b.Property<string>("name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("id");
-
-                    b.ToTable("Counters");
                 });
 
             modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
@@ -375,12 +356,6 @@ namespace CoreApiEdu1.Migrations
                     b.Property<int>("girDepo")
                         .HasColumnType("int");
 
-                    b.Property<bool>("isFaulty")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("isSaved")
-                        .HasColumnType("bit");
-
                     b.Property<double>("miktar")
                         .HasColumnType("float");
 
@@ -421,64 +396,6 @@ namespace CoreApiEdu1.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "b49782cf-012e-41da-a0e4-0abd83486d76",
-                            ConcurrencyStamp = "96038315-3e5e-4efd-96c1-b45f839f2b07",
-                            Name = "ExtUser",
-                            NormalizedName = "ExtUser"
-                        },
-                        new
-                        {
-                            Id = "745821f7-fed3-48f7-9acb-4ecc541005e2",
-                            ConcurrencyStamp = "40552884-9dcb-47e4-bb4b-d48bc7d8991b",
-                            Name = "LamUser",
-                            NormalizedName = "LAMUSER"
-                        },
-                        new
-                        {
-                            Id = "7a99f5ed-e864-4abe-9ce6-d0c294df4c86",
-                            ConcurrencyStamp = "030e02f2-62da-4cf8-aad0-ad6cd242d722",
-                            Name = "FensUser",
-                            NormalizedName = "FENSUSER"
-                        },
-                        new
-                        {
-                            Id = "06c0ba0f-d983-4570-b7ee-1152c15a9c8b",
-                            ConcurrencyStamp = "00a79955-591e-4b02-ab24-913b22748e59",
-                            Name = "Stocker",
-                            NormalizedName = "STOCKER"
-                        },
-                        new
-                        {
-                            Id = "859bfbc4-5d76-4b7d-b773-a373d3e93171",
-                            ConcurrencyStamp = "09909777-a080-4001-b546-8fb715945eea",
-                            Name = "Administrator",
-                            NormalizedName = "ADMINISTRATOR"
-                        },
-                        new
-                        {
-                            Id = "2583063e-2c66-433c-8632-1d404026321e",
-                            ConcurrencyStamp = "2cde0515-f565-44df-853f-2d2888ee9658",
-                            Name = "Observer",
-                            NormalizedName = "OBSERVER"
-                        },
-                        new
-                        {
-                            Id = "8e64a5ea-d78b-4497-a942-2975402ba579",
-                            ConcurrencyStamp = "d3376caa-1b23-4c9b-a07c-34965e4ddc75",
-                            Name = "Planner",
-                            NormalizedName = "PLANNER"
-                        },
-                        new
-                        {
-                            Id = "31202c72-1c78-4eea-8d96-572838b96fc0",
-                            ConcurrencyStamp = "1b3437c9-3a01-40e7-81f8-8f4f922ac06c",
-                            Name = "User",
-                            NormalizedName = "USER"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

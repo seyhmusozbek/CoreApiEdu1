@@ -12,6 +12,9 @@ namespace CoreApiEdu1.Models
         public string code { get; set; }
         [MaxLength(100)]
         public string orderNum { get; set; }
+        [MaxLength(100)]
+        public string usedCode { get; set; }
         public double quantity1 { get; set; }
+
     }
 }

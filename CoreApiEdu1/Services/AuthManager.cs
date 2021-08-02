@@ -29,6 +29,11 @@ namespace CoreApiEdu1.Services
         {
             SigningCredentials signingCredentials = GetSigningCredentials();
             List<Claim> claims = await GetClaims();
+            foreach (var item in claims)
+            {
+                var value="";
+                value = item.Value;
+            }
             var tokenOptions = GenerateTokenOptions(signingCredentials, claims);
 
             return new JwtSecurityTokenHandler().WriteToken(tokenOptions);

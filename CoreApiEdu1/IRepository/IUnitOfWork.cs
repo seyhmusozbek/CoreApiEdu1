@@ -14,6 +14,12 @@ namespace CoreApiEdu1.IRepository
         IGenericRepository<Machine> machines { get; }
         IGenericRepository<MStop> mStop { get; }
         IGenericRepository<ChosenOrder> chosenOrder { get; }
+        IGenericRepository<StockReserve> stockReserve { get; }
+        IGenericRepository<WHTransfer> wHTransfer { get; }
+        IGenericRepository<Counter> counters { get; }
+
+
+
 
 
         Task Save();

@@ -23,11 +23,15 @@ namespace CoreApiEdu1.Entities
         public DbSet<ChosenOrder> ChosenOrders { get; set; }
         public DbSet<Plan> Plans { get; set; }
         public DbSet<StockReserve> StockReserves { get; set; }
+        public DbSet<WHTransfer> WHTransfers { get; set; }
+        public DbSet<Counter> Counters { get; set; }
+
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            //builder.ApplyConfiguration(new RoleConfiguration());
+            builder.ApplyConfiguration(new RoleConfiguration());
         }
 
     }

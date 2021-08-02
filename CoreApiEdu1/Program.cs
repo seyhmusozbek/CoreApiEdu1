@@ -16,7 +16,7 @@ namespace CoreApiEdu1
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration().WriteTo.File(
-                path: @"C:\Program Files\BarcodeApi\logs\log-.txt",
+                path: @"C:\Logs\ApiLogs\log-.txt",
                 outputTemplate: "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}",
                 rollingInterval: RollingInterval.Day,
                 restrictedToMinimumLevel: LogEventLevel.Information
