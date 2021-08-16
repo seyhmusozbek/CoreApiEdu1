@@ -36,7 +36,6 @@ namespace CoreApiEdu1.Controllers
             _extruderOps = new ExtruderOps(_configuration);
             _wmsops = new WMSOps(_configuration);
         }
-        [Authorize]
         [HttpGet("{code}", Name = "GetTransactions")]
         public async Task<IActionResult> GetTransactions(string code)
         {
@@ -71,13 +70,27 @@ namespace CoreApiEdu1.Controllers
                 {
                     await _unitOfWork.wHTransfer.InsertRange(wht);
                     await _unitOfWork.Save();
-                    await _wmsops.WMSInsertToERP(wht);
+                    List<WHTransfer> willRemove = new List<WHTransfer>();
+                    for (int i =0; i<wht.Count;i++)
+                    {
+                        if (wht[i].girDepo == 130 && wht[i].cikDepo == 132)
+                            willRemove.Add(wht[i]);
+                    }
+
+                    foreach (var delete in willRemove)
+                    {
+                        wht.Remove(delete);
+                    }
+
+                    if (wht.Any())
+                    {
+                        await _wmsops.WMSInsertToERP(wht);
+                    }
                     return Ok(new { sReserve = wht, success = true });
                 }
                 else
                 {
-                return BadRequest(new { success = false, sReserve = addWHTransferDTO });
-
+                    return BadRequest(new { success = false, sReserve = addWHTransferDTO });
                 }
 
             }
@@ -85,6 +98,38 @@ namespace CoreApiEdu1.Controllers
             {
                 _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddWHTransfer)}");
                 return BadRequest(new { success = false, sReserve = addWHTransferDTO });
+            }
+        }
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddWHTransferManuel(int start, int end)
+        {
+            if (!ModelState.IsValid)
+            {
+                _iLogger.LogError($"Invalid post attempt in {nameof(AddWHTransfer)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var wht = await _unitOfWork.wHTransfer.GetAll(a => a.id >= start && a.id <= end);
+                if (wht.Count > 0)
+                {
+                    await _wmsops.WMSInsertToERP2(wht.ToList());
+                    return Ok(new { sReserve = wht, success = true });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, sReserve = wht });
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddWHTransfer)}");
+                return BadRequest(new { success = false, sReserve = end });
             }
         }
     }

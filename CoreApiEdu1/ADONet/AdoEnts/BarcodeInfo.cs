@@ -18,5 +18,7 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public double pay2 { get; set; }
         public double payda1 { get; set; }
         public string olcuBr2 { get; set; }
+        public string group { get; set; }
+
     }
 }

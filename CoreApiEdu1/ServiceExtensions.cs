@@ -116,8 +116,8 @@ namespace CoreApiEdu1
                 new RateLimitRule
                 {
                     Endpoint = "*",
-                    Limit= 150,
-                    Period = "5s"
+                    Limit= 350,
+                    Period = "3s"
                 }
             };
             services.Configure<IpRateLimitOptions>(opt =>

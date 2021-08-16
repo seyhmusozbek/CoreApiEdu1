@@ -30,12 +30,13 @@ namespace CoreApiEdu1.ADONet.AdoOps
                 _connection.ConnectionString = _configuration.GetConnectionString("sqlConnection");
                 await OpenSql();
                 _connection.ChangeDatabase("GURMENPVC2021");
-                SqlCommand cmd = new SqlCommand(@"select ID,ISNULL(M.YAPKOD,STOK_KODU)STOK_KODU,dbo.TRK(STOK_ADI)+ISNULL('-'+YAPACIK,'')STOK_ADI,DEPO_KODU,ISNULL((SELECT SUM(TOPBAKIYE) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE,
-ISNULL(OLCU_BR2,'')BR2,ISNULL(OLCU_BR1,'')BR1,ISNULL((SELECT SUM(TOPBAKIYE/PAYDA_1) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE2
-FROM EFLOW_NETSIS..Barcodes B 
-LEFT JOIN GURMENPVC2021..TBLESNYAPMAS M ON M.YAPKOD=PrCode
-INNER JOIN GURMENPVC2021..TBLSTSABIT S ON S.STOK_KODU=B.PrCode OR S.STOK_KODU=YPLNDRSTOKKOD
-WHERE Id=@ID", _connection);
+                SqlCommand cmd = new SqlCommand(@"select ID,ISNULL(convert(varchar(222),M.YAPKOD),STOK_KODU)STOK_KODU,dbo.TRK(STOK_ADI)+ISNULL('-'+YAPACIK,'')STOK_ADI,DEPO_KODU,ISNULL((SELECT SUM(TOPBAKIYE) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE,
+                ISNULL(OLCU_BR2,'')BR2,ISNULL(OLCU_BR1,'')BR1,ISNULL((SELECT SUM(TOPBAKIYE/PAYDA_1) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE2,
+                case WHEN GRUP_KODU IN('02','03')THEN 'PROFIL' ELSE 'DIGER'END GRUP
+                FROM EFLOW_NETSIS..Barcodes B 
+                LEFT JOIN GURMENPVC2021..TBLESNYAPMAS M ON M.YAPKOD=PrCode
+                INNER JOIN GURMENPVC2021..TBLSTSABIT S ON S.STOK_KODU=B.PrCode OR S.STOK_KODU=YPLNDRSTOKKOD
+                WHERE Id=@ID", _connection);
                 cmd.Parameters.Clear();
                 cmd.Parameters.AddWithValue("@ID", id);
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();
@@ -50,6 +51,7 @@ WHERE Id=@ID", _connection);
                     barcodeInfo.olcuBr1 = reader["BR1"].ToString();
                     barcodeInfo.bakiye2 = Convert.ToDouble(reader["BAKIYE2"]);
                     barcodeInfo.olcuBr2 = reader["BR2"].ToString();
+                    barcodeInfo.group = reader["GRUP"].ToString();
                 }
                 await reader.CloseAsync();
                 return barcodeInfo;
@@ -178,7 +180,7 @@ HAVING SUM(TOPBAKIYE)>0
                 FROM TBLSTHAR H
                 INNER JOIN TBLSTSABIT S ON S.STOK_KODU=H.STOK_KODU
                 LEFT JOIN TBLCASABIT C ON C.CARI_KOD=STHAR_ACIKLAMA
-                WHERE H.STOK_KODU LIKE @KOD OR YAPKOD LIKE @KOD
+                WHERE (H.STOK_KODU LIKE @KOD OR h.YAPKOD LIKE @KOD)
                 AND STHAR_TARIH>GETDATE()-7
                 AND H.DEPO_KODU IN(130,132,200,400,410,210)
                 AND H.STHAR_GCKOD='G'
@@ -201,7 +203,7 @@ HAVING SUM(TOPBAKIYE)>0
             }
             catch (Exception ex)
             {
-                return transactions;
+                throw ex;
             }
             finally
             {
