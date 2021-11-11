@@ -17,6 +17,10 @@ namespace CoreApiEdu1.IRepository
         IGenericRepository<StockReserve> stockReserve { get; }
         IGenericRepository<WHTransfer> wHTransfer { get; }
         IGenericRepository<Counter> counters { get; }
+        IGenericRepository<CountDetail> countDetails { get; }
+        IGenericRepository<CountMaster> countMaster { get; }
+
+
 
 
 

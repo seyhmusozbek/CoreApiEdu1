@@ -32,7 +32,7 @@ namespace CoreApiEdu1.ADONet.AdoOps
                 _connection.ChangeDatabase("GURMENPVC2021");
                 SqlCommand cmd = new SqlCommand(@"select ID,ISNULL(convert(varchar(222),M.YAPKOD),STOK_KODU)STOK_KODU,dbo.TRK(STOK_ADI)+ISNULL('-'+YAPACIK,'')STOK_ADI,DEPO_KODU,ISNULL((SELECT SUM(TOPBAKIYE) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE,
                 ISNULL(OLCU_BR2,'')BR2,ISNULL(OLCU_BR1,'')BR1,ISNULL((SELECT SUM(TOPBAKIYE/PAYDA_1) FROM YETKIN..EBASTOKBAKIYELERI A WHERE A.STOK_KODU=S.STOK_KODU AND GURMEN_DEPO_KODU=S.DEPO_KODU),0) BAKIYE2,
-                case WHEN GRUP_KODU IN('02','03')THEN 'PROFIL' ELSE 'DIGER'END GRUP
+                case WHEN GRUP_KODU IN('02','03')THEN 'PROFIL' ELSE 'DIGER'END GRUP,B.PrDate
                 FROM EFLOW_NETSIS..Barcodes B 
                 LEFT JOIN GURMENPVC2021..TBLESNYAPMAS M ON M.YAPKOD=PrCode
                 INNER JOIN GURMENPVC2021..TBLSTSABIT S ON S.STOK_KODU=B.PrCode OR S.STOK_KODU=YPLNDRSTOKKOD
@@ -52,6 +52,7 @@ namespace CoreApiEdu1.ADONet.AdoOps
                     barcodeInfo.bakiye2 = Convert.ToDouble(reader["BAKIYE2"]);
                     barcodeInfo.olcuBr2 = reader["BR2"].ToString();
                     barcodeInfo.group = reader["GRUP"].ToString();
+                    barcodeInfo.basimTarihi=Convert.ToDateTime(reader["PrDate"]);
                 }
                 await reader.CloseAsync();
                 return barcodeInfo;
@@ -81,7 +82,7 @@ PAYDA_1,
 ISNULL((SELECT SUM(R.QUANTITY1) FROM BARCODEAPP..STOCKRESERVES R  WHERE R.USEDCODE=STOK_KODU
 AND CODE+ORDERNUM IN(SELECT STOK_KODU+FISNO FROM GRM_PLSIPARIS G WHERE G.GRUP_KODU IN('03'))),0)KULLANILAN1
 FROM YETKIN..EBASTOKBAKIYELERI S 
-WHERE S.GURMEN_DEPO_KODU IN(130,132,120,200)
+WHERE S.GURMEN_DEPO_KODU IN(130,132,120,200) and STOK_KODU LIKE '_MM%'
 GROUP BY STOK_KODU,STOK_ADI,OLCU_BR2,OLCU_BR1,PAY2,PAYDA_1
 HAVING SUM(TOPBAKIYE)>0
 ", _connection);
@@ -100,6 +101,7 @@ HAVING SUM(TOPBAKIYE)>0
                     barcodeInfo.payda1 = Convert.ToDouble(reader["PAYDA_1"]);
                     barcodeInfo.kullanilan1 = Convert.ToDouble(reader["KULLANILAN1"]);
                     barcodeInfo.olcuBr2 = reader["BR2"].ToString();
+                    barcodeInfo.basimTarihi = DateTime.Now;
                     barcodeInfos.Add(barcodeInfo);
                 }
                 await reader.CloseAsync();
@@ -182,7 +184,7 @@ HAVING SUM(TOPBAKIYE)>0
                 LEFT JOIN TBLCASABIT C ON C.CARI_KOD=STHAR_ACIKLAMA
                 WHERE (H.STOK_KODU LIKE @KOD OR h.YAPKOD LIKE @KOD)
                 AND STHAR_TARIH>GETDATE()-7
-                AND H.DEPO_KODU IN(130,132,200,400,410,210)
+                AND H.DEPO_KODU IN(130,132,200,400,410,210) and STHAR_ACIKLAMA<>'410-410'
                 AND H.STHAR_GCKOD='G'
                 AND STHAR_GCMIK>0
                 ORDER BY STHAR_TARIH ASC", _connection);
@@ -218,11 +220,12 @@ HAVING SUM(TOPBAKIYE)>0
                 _connection.ConnectionString = _configuration.GetConnectionString("sqlConnection");
                 await OpenSql();
                 _connection.ChangeDatabase("GURMENPVC2021");
-                SqlCommand cmd = new SqlCommand(@"  select FISNO,UNVAN ACIKLAMA,FISNO2,BELGENOTU,SUM(KALAN_MIKTAR*CEVRIM3)KALANKG,SUM(KALAN_MIKTAR*CEVRIM2)KALANPK,
+                SqlCommand cmd = new SqlCommand(@"select FISNO,UNVAN ACIKLAMA,FISNO2,BELGENOTU,SUM(KALAN_MIKTAR*CEVRIM3)KALANKG,SUM(KALAN_MIKTAR*CEVRIM2)KALANPK,
   CONVERT(bit,CASE WHEN(SELECT COUNT(*)  FROM BarcodeApp..ChosenOrders  where ORDERNUM=FISNO)>0 THEN 1
   ELSE 0 END) ISCHOSEN,ISNULL((select TOP 1 CASE WHEN C.[priority]=0 THEN 9999 ELSE C.[priority] END  FROM BarcodeApp..ChosenOrders C WHERE C.orderNum=FISNO),9999)PRIOR 
   from GRM_PLSIPARIS WHERE GRUP_KODU  IN('03','02') AND KALAN_MIKTAR>0 AND FISNO NOT LIKE 'D2%'
   GROUP BY FISNO,UNVAN,FISNO2,BELGENOTU
+  HAVING SUM(KALAN_MIKTAR*CEVRIM2)>=1
 ", _connection);
                 cmd.Parameters.Clear();
                 SqlDataReader reader = await cmd.ExecuteReaderAsync();

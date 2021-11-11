@@ -19,6 +19,7 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public double payda1 { get; set; }
         public string olcuBr2 { get; set; }
         public string group { get; set; }
+        public DateTime basimTarihi { get; set; }
 
     }
 }

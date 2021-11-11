@@ -16,6 +16,8 @@ namespace CoreApiEdu1.Entities
         public double miktar { get; set; }
         [MaxLength(200)]
         public string aciklama { get; set; }
+        [MaxLength(50)]
+        public string aciklama2 { get; set; }
         public int obr { get; set; }
         public DateTime date { get; set; }
         public bool isSaved { get; set; }

@@ -32,10 +32,10 @@ namespace CoreApiEdu1
                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
             );
 
-            services.AddMemoryCache();
+            //services.AddMemoryCache();
 
-            services.ConfigureRateLimiting();
-            services.AddHttpContextAccessor();
+           // services.ConfigureRateLimiting();
+            //services.AddHttpContextAccessor();
 
             //services.ConfigureHttpCacheHeaders();
 
@@ -123,9 +123,9 @@ namespace CoreApiEdu1
 
             app.UseCors("AllowAll");
 
-            app.UseResponseCaching();
+            //app.UseResponseCaching();
             //app.UseHttpCacheHeaders();
-            app.UseIpRateLimiting();
+            //app.UseIpRateLimiting();
 
             app.UseRouting();
 

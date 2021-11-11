@@ -51,6 +51,21 @@ namespace CoreApiEdu1.Controllers
             }
         }
 
+        [HttpGet(Name = "GetFensWOrders")]
+        public async Task<IActionResult> GetFensWOrders()
+        {
+            try
+            {
+                var fensWOrders = await _wmsops.GetFWorders();
+                return Ok(fensWOrders);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetFensWOrders)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
+            }
+        }
+
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,7 +86,7 @@ namespace CoreApiEdu1.Controllers
                     await _unitOfWork.wHTransfer.InsertRange(wht);
                     await _unitOfWork.Save();
                     List<WHTransfer> willRemove = new List<WHTransfer>();
-                    for (int i =0; i<wht.Count;i++)
+                    for (int i = 0; i < wht.Count; i++)
                     {
                         if (wht[i].girDepo == 130 && wht[i].cikDepo == 132)
                             willRemove.Add(wht[i]);
@@ -130,6 +145,66 @@ namespace CoreApiEdu1.Controllers
             {
                 _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddWHTransfer)}");
                 return BadRequest(new { success = false, sReserve = end });
+            }
+        }
+
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> AddCountings([FromBody] CountMasterDTO masterDTO)
+        {
+            if (!ModelState.IsValid)
+            {
+                _iLogger.LogError($"Invalid post attempt in {nameof(AddCountings)}");
+                return BadRequest(ModelState);
+            }
+            try
+            {
+                var master = _mapper.Map<CountMaster>(masterDTO);
+                master.isActive = true;
+                var oldRecords = await _unitOfWork.countMaster.GetAll(a=> a.exp==master.exp && a.warehouse==master.warehouse && a.date.Date==master.date.Date && a.isActive);
+                foreach (var item in oldRecords)
+                {
+                    item.isActive = false;
+                    _unitOfWork.countMaster.Update(item);
+                }
+                
+                await _unitOfWork.countMaster.Insert(master);
+                await _unitOfWork.Save();
+                return Ok(master);
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(AddCountings)}");
+                return BadRequest(new { success = false, masters= masterDTO });
+            }
+        }
+
+        [HttpGet(Name = "GetCounting")]
+        public async Task<IActionResult> GetCounting(string exp,int wh)
+        {
+            try
+            {
+                var counting = await _unitOfWork.countMaster.Get(a=> a.exp==exp && a.warehouse==wh && a.isActive);
+                if (counting != null)
+                {
+                    var details = await _unitOfWork.countDetails.GetAll(a=> a.countMasterId==counting.id);
+                    counting.details = details;
+                    return Ok(counting.details);
+                }
+                else
+                {
+                    List<CountDetail> cd = new List<CountDetail>();
+                    return Ok(cd);
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"something went wrong in the {nameof(GetCounting)}");
+                return StatusCode(500, "Internal server error. Please try again later.");
             }
         }
     }

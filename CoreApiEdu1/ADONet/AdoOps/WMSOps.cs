@@ -118,6 +118,38 @@ ORDER BY GURMENFISNO DESC),'B'+@YIL+'0000000001') as FISNO", _connection, transa
             }
         }
 
+
+        public async Task<List<FensWOrders>> GetFWorders()
+        {
+            List<FensWOrders> fWOrders = new List<FensWOrders>();
+            try
+            {
+                _connection.ConnectionString = _configuration.GetConnectionString("sqlConnection");
+                await OpenSql();
+                _connection.ChangeDatabase("GURMENPVC2021");
+                SqlCommand cmd = new SqlCommand(@"SELECT REFNO,KAYITYAPAN,EFLOW_NETSIS.dbo.ORDERNO(REFNO)ACIKLAMA FROM FLOW_ISMRMAS WHERE KAYITTARIHI>GETDATE()-45
+                AND REFNO LIKE 'W20%'", _connection);
+                SqlDataReader reader = await cmd.ExecuteReaderAsync();
+                while (await reader.ReadAsync())
+                {
+                    FensWOrders fensWOrder = new FensWOrders();
+                    fensWOrder.refNum = reader["REFNO"].ToString();
+                    fensWOrder.savedBy = reader["KAYITYAPAN"].ToString();
+                    fensWOrder.exp1 = reader["ACIKLAMA"].ToString();
+                    fWOrders.Add(fensWOrder);
+                }
+                await reader.CloseAsync();
+                return fWOrders;
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+            finally
+            {
+                await CloseSql();
+            }
+        }
         public async Task WMSInsertToERP(List<WHTransfer> transfers)
         {
             SqlTransaction transaction = null;
@@ -127,10 +159,9 @@ ORDER BY GURMENFISNO DESC),'B'+@YIL+'0000000001') as FISNO", _connection, transa
                 await OpenSql();
                 _connection.ChangeDatabase("GURMENPVC2021");
                 transaction = _connection.BeginTransaction();//transaction begin
-
                 SqlCommand cmd = new SqlCommand(@"SELECT ISNULL((SELECT TOP 1 'B'+@YIL+RIGHT('000000000'+CONVERT(VARCHAR(15),RIGHT(GURMENFISNO,5)+1),10) FROM (
                 SELECT FATIRSNO GURMENFISNO FROM FLOW_FISNORES WHERE TIPI='DT' AND FATIRSNO LIKE 'B%' AND LEN(FATIRSNO)>10
-                union all select FATIRS_NO FROM TBLFATUIRS WHERE FTIRSIP='8' AND FATIRS_NO LIKE 'B%'
+                union all select FATIRS_NO FROM TBLFATUIRS WHERE FTIRSIP='8' AND FATIRS_NO LIKE 'B%'and FATIRS_NO NOT LIKE '%X%'
                 )Z WHERE SUBSTRING(GURMENFISNO,2,4)=@YIL
                 ORDER BY GURMENFISNO DESC),'B'+@YIL+'0000000001') as FISNO", _connection, transaction);
                 cmd.Parameters.Clear();

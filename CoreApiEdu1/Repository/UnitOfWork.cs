@@ -22,13 +22,8 @@ namespace CoreApiEdu1.Repository
         private IGenericRepository<StockReserve> _stockReserve;
         private IGenericRepository<WHTransfer> _wHTransfer;
         private IGenericRepository<Counter> _counters;
-
-
-
-
-
-
-
+        private IGenericRepository<CountMaster> _countMaster;
+        private IGenericRepository<CountDetail> _countDetails;
 
 
         public UnitOfWork(BarcodeContext context)
@@ -46,7 +41,8 @@ namespace CoreApiEdu1.Repository
         public IGenericRepository<StockReserve> stockReserve => _stockReserve ??= new GenericRepository<StockReserve>(_context);
         public IGenericRepository<WHTransfer> wHTransfer => _wHTransfer ??= new GenericRepository<WHTransfer>(_context);
         public IGenericRepository<Counter> counters => _counters ??= new GenericRepository<Counter>(_context);
-
+        public IGenericRepository<CountMaster> countMaster => _countMaster ??= new GenericRepository<CountMaster>(_context);
+        public IGenericRepository<CountDetail> countDetails => _countDetails ??= new GenericRepository<CountDetail>(_context);
 
         public void Dispose()
         {

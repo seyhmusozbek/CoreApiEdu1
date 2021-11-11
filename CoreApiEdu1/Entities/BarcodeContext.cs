@@ -25,13 +25,17 @@ namespace CoreApiEdu1.Entities
         public DbSet<StockReserve> StockReserves { get; set; }
         public DbSet<WHTransfer> WHTransfers { get; set; }
         public DbSet<Counter> Counters { get; set; }
+        public DbSet<CountDetail> CountDetails { get; set; }
+        public DbSet<CountMaster> CountMaster { get; set; }
+
+
 
 
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            builder.ApplyConfiguration(new RoleConfiguration());
+            //builder.ApplyConfiguration(new RoleConfiguration());
         }
 
     }

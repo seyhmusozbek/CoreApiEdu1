@@ -4,14 +4,16 @@ using CoreApiEdu1.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace CoreApiEdu1.Migrations
 {
     [DbContext(typeof(BarcodeContext))]
-    partial class BarcodeContextModelSnapshot : ModelSnapshot
+    [Migration("20210823113435_counting_tables")]
+    partial class counting_tables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,73 +132,6 @@ namespace CoreApiEdu1.Migrations
                     b.HasKey("id");
 
                     b.ToTable("ChosenOrders");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.CountDetail", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("aciklama")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<int>("countMasterId")
-                        .HasColumnType("int");
-
-                    b.Property<double>("miktar")
-                        .HasColumnType("float");
-
-                    b.Property<int>("obr")
-                        .HasColumnType("int");
-
-                    b.Property<string>("obrStr")
-                        .HasMaxLength(15)
-                        .HasColumnType("nvarchar(15)");
-
-                    b.Property<string>("stokAdi")
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("stokKodu")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("id");
-
-                    b.HasIndex("countMasterId");
-
-                    b.ToTable("CountDetails");
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.CountMaster", b =>
-                {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("exp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("isActive")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("userName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("warehouse")
-                        .HasColumnType("int");
-
-                    b.HasKey("id");
-
-                    b.ToTable("CountMaster");
                 });
 
             modelBuilder.Entity("CoreApiEdu1.Entities.Counter", b =>
@@ -433,10 +368,6 @@ namespace CoreApiEdu1.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
-                    b.Property<string>("aciklama2")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
                     b.Property<int>("cikDepo")
                         .HasColumnType("int");
 
@@ -492,6 +423,64 @@ namespace CoreApiEdu1.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "2690fc6a-b40c-440b-964a-5d5f6ef70611",
+                            ConcurrencyStamp = "3f2648ae-d267-4a08-864d-97e7f591e4b4",
+                            Name = "ExtUser",
+                            NormalizedName = "ExtUser"
+                        },
+                        new
+                        {
+                            Id = "73bac9d0-39e3-4eb2-b61c-3c6fefd76e0d",
+                            ConcurrencyStamp = "d2a7a308-196d-4a6a-b2c0-d0d2cea3bd5c",
+                            Name = "LamUser",
+                            NormalizedName = "LAMUSER"
+                        },
+                        new
+                        {
+                            Id = "1d59ce39-9697-4837-93f5-71b5c75d13a6",
+                            ConcurrencyStamp = "b463ab45-709e-4702-ad86-ef1c9d5600d5",
+                            Name = "FensUser",
+                            NormalizedName = "FENSUSER"
+                        },
+                        new
+                        {
+                            Id = "ed38c7de-3a74-4e68-940a-5a4869760b81",
+                            ConcurrencyStamp = "b17b856a-a5bd-4d7f-bfa4-9af338a2c768",
+                            Name = "Stocker",
+                            NormalizedName = "STOCKER"
+                        },
+                        new
+                        {
+                            Id = "24bc7d72-d16b-4069-80f9-403e6f5392f2",
+                            ConcurrencyStamp = "5782930f-cacb-4c6d-a689-e2b872907e07",
+                            Name = "Administrator",
+                            NormalizedName = "ADMINISTRATOR"
+                        },
+                        new
+                        {
+                            Id = "4e440c48-4482-4740-b8d3-8c55e1e6eb02",
+                            ConcurrencyStamp = "fe0875e6-02b6-44d8-8a22-e6e4bd3eb046",
+                            Name = "Observer",
+                            NormalizedName = "OBSERVER"
+                        },
+                        new
+                        {
+                            Id = "39656913-46d4-4f90-aa0d-f9f6753067a9",
+                            ConcurrencyStamp = "d976b228-2218-40c4-b197-2114c7dc5711",
+                            Name = "Planner",
+                            NormalizedName = "PLANNER"
+                        },
+                        new
+                        {
+                            Id = "b4a7e1b4-973f-4e65-a2f8-cfcb9687b012",
+                            ConcurrencyStamp = "9fb2271d-66c7-496a-9d46-70bb2709ffb0",
+                            Name = "User",
+                            NormalizedName = "USER"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -607,17 +596,6 @@ namespace CoreApiEdu1.Migrations
                     b.Navigation("productId");
                 });
 
-            modelBuilder.Entity("CoreApiEdu1.Entities.CountDetail", b =>
-                {
-                    b.HasOne("CoreApiEdu1.Entities.CountMaster", "countMaster")
-                        .WithMany("details")
-                        .HasForeignKey("countMasterId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("countMaster");
-                });
-
             modelBuilder.Entity("CoreApiEdu1.Entities.MStop", b =>
                 {
                     b.HasOne("CoreApiEdu1.Entities.Machine", "machine")
@@ -676,11 +654,6 @@ namespace CoreApiEdu1.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("CoreApiEdu1.Entities.CountMaster", b =>
-                {
-                    b.Navigation("details");
                 });
 #pragma warning restore 612, 618
         }
