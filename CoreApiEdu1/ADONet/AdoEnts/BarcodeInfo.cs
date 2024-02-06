@@ -20,6 +20,15 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public string olcuBr2 { get; set; }
         public string group { get; set; }
         public DateTime basimTarihi { get; set; }
+        public bool isColored { get; set; }
+        public string length { get; set; }
+        public string catalogCode { get; set; }
+        public string protectiveFoil { get; set; }
+        public string extColorCode { get; set; }
+        public string extColorFace { get; set; }
+        public string gasketColor { get; set; }
+        public string gasketType { get; set; }
+        public string wallGasket { get; set; }
 
     }
 }

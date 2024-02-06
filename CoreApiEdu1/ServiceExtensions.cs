@@ -3,19 +3,18 @@ using System;
 using CoreApiEdu1.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using AspNetCoreRateLimit;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 using Marvin.Cache.Headers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Diagnostics;
 using CoreApiEdu1.Models;
 using Serilog;
+using Asp.Versioning;
 
 namespace CoreApiEdu1
 {

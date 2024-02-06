@@ -1,7 +1,8 @@
 using System.Collections.Generic;
-using CoreApiEdu1.Configurations;
+using CoreApiEdu1.ADONet.AdoOps;
 using CoreApiEdu1.Entities;
 using CoreApiEdu1.IRepository;
+using CoreApiEdu1.Models;
 using CoreApiEdu1.Repository;
 using CoreApiEdu1.Services;
 using Microsoft.AspNetCore.Builder;
@@ -10,8 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using AspNetCoreRateLimit;
+using Serilog;
 
 namespace CoreApiEdu1
 {
@@ -27,22 +29,31 @@ namespace CoreApiEdu1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var log = new LoggerConfiguration()
+        .ReadFrom.Configuration(Configuration)
+        .CreateLogger();
 
+            var loggerFactory = new LoggerFactory().AddSerilog(log);
             services.AddDbContext<BarcodeContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("sqlConnection"))
             );
 
-            //services.AddMemoryCache();
+            services.AddMemoryCache();
 
-           // services.ConfigureRateLimiting();
+            // services.ConfigureRateLimiting();
             //services.AddHttpContextAccessor();
 
             //services.ConfigureHttpCacheHeaders();
-
+            services.AddSingleton(loggerFactory);
             services.AddAuthentication();
             services.ConfigureIdentity();
+            services.AddOptions();
+            services.Configure<Appsettings>(Configuration.GetSection("Appsettings"));
             services.ConfigureJWT(Configuration);
-
+            services.AddScoped<ExtruderOps>();
+            services.AddScoped<WMSOps>();
+            services.AddMvc();
+            services.AddAutoMapper(typeof(Startup));
             services.AddCors(o => {
                 o.AddPolicy("AllowAll", builder =>
                     builder.AllowAnyOrigin()
@@ -50,13 +61,13 @@ namespace CoreApiEdu1
                     .AllowAnyHeader());
             });
 
-            services.AddAutoMapper(typeof(MapperInitializer));
+            //services.AddAutoMapper(typeof(MapperInitializer));
 
             services.AddTransient<IUnitOfWork, UnitOfWork>();
             services.AddScoped<IAuthManager, AuthManager>();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Your api title", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Planning Api", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n 
@@ -118,8 +129,6 @@ namespace CoreApiEdu1
             });
 
             app.ConfigureExceptionHandler();
-
-            app.UseHttpsRedirection();
 
             app.UseCors("AllowAll");
 

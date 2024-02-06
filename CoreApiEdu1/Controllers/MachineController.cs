@@ -116,5 +116,55 @@ namespace CoreApiEdu1.Controllers
                 return BadRequest(new { caliber = caliber });
             }
         }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Create([FromBody] Machine machineRequest)
+        {
+            try
+            {
+                var machine = await _unitOfWork.machines.Get(a => a.machineName == machineRequest.machineName);
+                if (machine != null)
+                {
+                    return BadRequest();
+                }
+                await _unitOfWork.machines.Insert(machineRequest);
+                await _unitOfWork.Save();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(Create)}");
+                return BadRequest();
+            }
+        }
+
+        [HttpPost]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> Delete([FromBody] Machine machineRequest)
+        {
+            try
+            {
+                var machine = await _unitOfWork.machines.Get(a => a.machineName == machineRequest.machineName && a.machineGroup == machineRequest.machineGroup);
+                if (machine == null)
+                {
+                    return BadRequest();
+                }
+                await _unitOfWork.machines.Delete(machine.id);
+                await _unitOfWork.Save();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _iLogger.LogError(ex, $"Invalid post attempt in {nameof(Create)}");
+                return BadRequest();
+            }
+        }
     }
 }

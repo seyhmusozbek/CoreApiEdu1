@@ -27,14 +27,14 @@ namespace CoreApiEdu1.Controllers
         private readonly WMSOps _wmsops;
 
 
-        public WMSController(IUnitOfWork unitOfWork, ILogger<ExtController> logger, IMapper mapper, IConfiguration configuration)
+        public WMSController(IUnitOfWork unitOfWork, ILogger<ExtController> logger, IMapper mapper, IConfiguration configuration, ExtruderOps extruderOps, WMSOps wMSOps)
         {
             _unitOfWork = unitOfWork;
             _iLogger = logger;
             _mapper = mapper;
             _configuration = configuration;
-            _extruderOps = new ExtruderOps(_configuration);
-            _wmsops = new WMSOps(_configuration);
+            _extruderOps = extruderOps;
+            _wmsops = wMSOps;
         }
         [HttpGet("{code}", Name = "GetTransactions")]
         public async Task<IActionResult> GetTransactions(string code)

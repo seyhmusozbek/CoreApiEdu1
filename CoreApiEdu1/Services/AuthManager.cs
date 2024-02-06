@@ -5,6 +5,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
@@ -63,6 +64,7 @@ namespace CoreApiEdu1.Services
                 claims.Add(new Claim(ClaimTypes.Role, role));
             }
 
+            claims.Add(new Claim(ClaimTypes.Role, "Dummy_Role"));
             return claims;
         }
 

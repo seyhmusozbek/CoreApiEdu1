@@ -17,6 +17,6 @@ namespace CoreApiEdu1.Entities
         public string currentCaliber { get; set; }
         [MaxLength(10)]
         public string colorFilter { get; set; }
-        public DateTime? lastStopped { get; set; }
+        public DateTime? lastStopped { get; set; } = DateTime.Now;
     }
 }

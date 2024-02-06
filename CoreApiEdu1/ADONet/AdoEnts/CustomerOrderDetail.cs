@@ -21,6 +21,16 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public string dColor { get; set; }
         public string subCode { get; set; }
         public string subName { get; set; }
+        public bool isColored { get; set; }
+        public string length { get; set; }
+        public string catalogCode { get; set; }
+        public string protectiveFoil { get; set; }
+        public string extColorCode { get; set; }
+        public string extColorFace { get; set; }
+        public string gasketColor { get; set; }
+        public string gasketType { get; set; }
+        public string wallGasket { get; set; }
+        public string caliberCode { get; set; }
 
     }
 }
