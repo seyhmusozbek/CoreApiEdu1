@@ -13,5 +13,6 @@ namespace CoreApiEdu1.Entities
         public string orderNum { get; set; }
         public DateTime finishTime { get; set; }
         public int priority { get; set; }
+        public string merge { get; set; }
     }
 }

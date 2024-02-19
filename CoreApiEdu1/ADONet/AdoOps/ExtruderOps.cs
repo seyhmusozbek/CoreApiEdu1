@@ -267,7 +267,8 @@ HAVING SUM(TOPBAKIYE)>0
             await using var connection = new SqlConnection(connectionString);
             return (await connection.QueryAsync<CustomerOrder>(@"select FISNO orderNum,UNVAN customerName,FISNO2 orderNum2,BELGENOTU exp1,SUM(KALAN_MIKTAR*CEVRIM3)KALANKG,SUM(KALAN_MIKTAR*CEVRIM2)KALANPK,
   CONVERT(bit,CASE WHEN(SELECT COUNT(*)  FROM BarcodeApp..ChosenOrders  where ORDERNUM=FISNO )>0 THEN 1
-  ELSE 0 END) chosen,ISNULL((select TOP 1 CASE WHEN C.[priority]=0 THEN 9999 ELSE C.[priority] END  FROM BarcodeApp..ChosenOrders C WHERE C.orderNum=FISNO ),9999) [priority]
+  ELSE 0 END) chosen,ISNULL((select TOP 1 CASE WHEN C.[priority]=0 THEN 9999 ELSE C.[priority] END  FROM BarcodeApp..ChosenOrders C WHERE C.orderNum=FISNO ),9999) [priority],
+  (select top 1 [merge] from BarcodeApp..ChosenOrders c where c.orderNum = FISNO)[merge]
   from GRM_PLSIPARIS WHERE KALAN_MIKTAR>0 
   GROUP BY FISNO,UNVAN,FISNO2,BELGENOTU
   HAVING SUM(KALAN_MIKTAR*CEVRIM2)>=1"))

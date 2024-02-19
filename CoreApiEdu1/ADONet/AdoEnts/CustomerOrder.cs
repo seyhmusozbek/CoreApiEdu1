@@ -14,6 +14,7 @@ namespace CoreApiEdu1.ADONet.AdoEnts
         public bool chosen { get; set; }
         public int priority { get; set; }
         public string exp1 { get; set; }
+        public string merge { get; set; }
         public double kalanKg { get; set; }
         public double kalanPk { get; set; }
 

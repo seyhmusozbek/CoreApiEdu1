@@ -12,5 +12,6 @@ namespace CoreApiEdu1.Models
         public string orderNum { get; set; }
         public DateTime finishTime { get; set; }
         public int priority { get; set; }
+        public string merge { get; set; }
     }
 }
